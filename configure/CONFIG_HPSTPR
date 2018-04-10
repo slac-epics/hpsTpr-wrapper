@@ -1,0 +1,21 @@
+HPSTPR_VERSION=R1.0.1
+HPSTPR_TOP=$(PACKAGE_SITE_TOP)/timing/hpsTpr/$(HPSTPR_VERSION)
+
+BUILDROOT_VERSION=buildroot-2016.11.1-
+
+HPSTPR_TOP_ARCH_default=$(HPSTPR_TOP)/$(patsubst linuxRT-%,$(BUILDROOT_VERSION)%,$(T_A))
+
+HPSTPR_TOP_ARCH_linuxRT-arm_zynq=$(HPSTPR_TOP)/$(BUILDROOT_VERSION)zynq
+
+HPSTPR_TOP_ARCH=$(or $(HPSTPR_TOP_ARCH_$(T_A)),$(HPSTPR_TOP_ARCH_default))
+
+HPSTPR_INCLUDES_default=$(HPSTPR_TOP_ARCH)/include
+
+HPSTPR_INCLUDES:=$(wildcard $(or $(HPSTPR_INCLUDES_$(T_A)),$(HPSTPR_INCLUDES_default)))
+
+hpstpr_DIR_default=$(HPSTPR_TOP_ARCH)/lib
+hpstpr_DIR:=$(wildcard $(or $(HPSTPR_LIBS_$(T_A)),$(hpstpr_DIR_default)))
+
+HPSTPR_LIBS+=hpstpr
+
+INCLUDES+=$(addprefix -I,$(HPSTPR_INCLUDES))
